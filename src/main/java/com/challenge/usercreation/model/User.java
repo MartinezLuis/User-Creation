@@ -61,7 +61,7 @@ public class User {
                 .name(this.getName())
                 .email(this.getEmail())
                 .password(this.getPassword())
-                .token(UUID.randomUUID())
+                .token(this.getToken())
                 .active(true)
                 .phones(this.phones.stream().map(Phone::toJpa).collect(Collectors.toList()))
                 .build();

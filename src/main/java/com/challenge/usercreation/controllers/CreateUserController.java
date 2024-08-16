@@ -3,11 +3,10 @@ package com.challenge.usercreation.controllers;
 import com.challenge.usercreation.core.usecases.CreateUserUseCase;
 import com.challenge.usercreation.model.User;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @RestController
 public class CreateUserController {
@@ -25,7 +24,7 @@ public class CreateUserController {
 
     @PostMapping("/user/create")
     @ResponseStatus( HttpStatus.CREATED )
-    public User createUser(@RequestBody final User user) {
+    public User createUser(@RequestBody final User user, @RequestHeader final UUID token) {
 
         if (!user.validateMail()) {
             throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Invalid email" );
@@ -34,6 +33,8 @@ public class CreateUserController {
         if (!user.validatePassword(PASS_PATTERN)) {
             throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Invalid password" );
         }
+
+        user.setToken(token);
 
         return createUserUseCase.execute(user);
     }
