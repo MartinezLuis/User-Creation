@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Builder
@@ -78,5 +80,21 @@ public class User {
                 .active(jpa.getActive())
                 .phones(jpa.getPhones().stream().map(Phone::fromJpa).collect(Collectors.toList()))
                 .build();
+    }
+
+    public Boolean validateMail()
+    {
+        String regex = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.email);
+        return matcher.matches();
+    }
+
+    public Boolean validatePassword(String regex)
+    {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.password);
+        return matcher.matches();
     }
 }
