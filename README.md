@@ -21,4 +21,10 @@ curl --location 'http://localhost:8080/user/create' \
 ]
 }'
 
+
+Al igual se puede usar tambien swagger para probar usando el siguiente URL:
+http://localhost:8080/swagger-ui
+
+
+
 ![solution_flow.jpeg](solution_flow.jpeg)
